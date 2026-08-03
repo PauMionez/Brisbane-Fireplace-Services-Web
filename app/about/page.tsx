@@ -20,6 +20,7 @@ export default function AboutPage() {
         eyebrow="About Us"
         title="Read more about us and our chimney work"
         description="Punctual, efficient, and perfectly clean — every time."
+        image="/images/hero-about.jpg"
       />
 
       <section className="py-20">

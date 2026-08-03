@@ -33,6 +33,8 @@ export default function FireplaceInstallationPage() {
         eyebrow="Fireplace Installation"
         title="A wide range of options for your fireplace installation needs"
         description="Whether you're building new or renovating, we'll make sure your fireplace works well from day one."
+        image="/images/hero-fireplace-installation.jpg"
+        imagePosition="center 30%"
       />
 
       <section className="py-20">

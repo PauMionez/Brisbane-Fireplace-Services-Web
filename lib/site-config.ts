@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: "Brisbane Fireplace Services",
   tagline: "Chimney Cleaning, Repairs & Fireplace Installations",
   description:
-    "Local chimney sweeps and fireplace specialists serving Brisbane and surrounding suburbs. Cleaning, repairs, safety checks and installations.",
+    "Local chimney cleaning and fireplace specialists serving Brisbane and surrounding suburbs. Cleaning, repairs, safety checks and installations.",
   phone: "0421 833 506",
   phoneHref: "tel:+61421833506",
   email: "unlikanin28@gmail.com",

@@ -14,7 +14,12 @@ export const metadata: Metadata = {
 export default function FaqPage() {
   return (
     <>
-      <PageHero eyebrow="F.A.Q." title="Frequently Asked Questions" />
+      <PageHero
+        eyebrow="F.A.Q."
+        title="Frequently Asked Questions"
+        image="/images/hero-faq.jpg"
+        imagePosition="center 70%"
+      />
 
       <section className="relative overflow-hidden py-20">
         <div aria-hidden className="pointer-events-none absolute inset-0">

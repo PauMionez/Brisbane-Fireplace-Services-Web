@@ -33,19 +33,20 @@ export default function Hero() {
       className="relative overflow-hidden bg-charcoal text-white"
     >
       <motion.div aria-hidden style={{ y: backdropY }} className="absolute inset-0 scale-110">
-        {/* Desaturated so the orange firelight doesn't fight the blue theme —
-            the navy gradient below tints it into a duotone. Drop `grayscale`
-            to bring the warmth back as a complementary accent. */}
         <Image
-          src="/images/chimney-cleaning-fire.jpg"
+          src="/images/hero.jpg"
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-35 grayscale"
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/85 to-charcoal/55" />
-        <div className="absolute inset-0 bg-ember/15 mix-blend-screen" />
+        {/* Scrim is directional, not flat: heavy on the left where the text
+            sits, lifting to the right so the fireplace stays visible. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/80 to-charcoal/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-charcoal/30" />
+        {/* Just enough blue to tie the photo to the theme. */}
+        <div className="absolute inset-0 bg-ember/10" />
       </motion.div>
 
       <div aria-hidden className="pointer-events-none absolute inset-0">

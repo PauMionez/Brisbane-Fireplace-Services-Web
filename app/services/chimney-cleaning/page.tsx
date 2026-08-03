@@ -22,6 +22,8 @@ export default function ChimneyCleaningPage() {
         eyebrow="Chimney Cleaning"
         title="Ensure your fireplace runs safely and efficiently"
         description="Local and trusted, with the right tools and equipment for any chimney."
+        image="/images/hero-chimney-cleaning.jpg"
+        imagePosition="center 35%"
       />
 
       <section className="py-20">

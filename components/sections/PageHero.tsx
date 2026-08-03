@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Fragment, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Container from "@/components/ui/Container";
@@ -36,10 +37,15 @@ export default function PageHero({
   eyebrow,
   title,
   description,
+  image,
+  imagePosition = "center center",
 }: {
   eyebrow: string;
   title: string;
   description?: string;
+  /** Optional background photo. Without it the hero stays flat navy. */
+  image?: string;
+  imagePosition?: string;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -55,6 +61,25 @@ export default function PageHero({
       ref={sectionRef}
       className="relative overflow-hidden bg-charcoal text-white"
     >
+      {image && (
+        <motion.div aria-hidden style={{ y: glowY }} className="absolute inset-0">
+          <Image
+            src={image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            style={{ objectPosition: imagePosition }}
+          />
+          {/* Heavier on the left where the heading sits, lifting to the right
+              so the photo stays visible. This hero is short, so it needs a
+              denser scrim than the home page one. */}
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/85 to-charcoal/45" />
+          <div className="absolute inset-0 bg-ember/10" />
+        </motion.div>
+      )}
+
       <motion.div
         aria-hidden
         style={{ y: glowY }}

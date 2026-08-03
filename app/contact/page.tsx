@@ -5,7 +5,6 @@ import ContactForm from "@/components/ui/ContactForm";
 import Reveal from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/site-config";
 import ContactInfo from "./_components/ContactInfo";
-import ServiceArea from "@/components/sections/ServiceArea";
 
 export const metadata: Metadata = {
   title: `Contact | ${siteConfig.name}`,
@@ -19,6 +18,8 @@ export default function ContactPage() {
         eyebrow="Contact Us"
         title="Make a question"
         description="Feel free to contact us. We are happy to help you."
+        image="/images/hero-contact.jpg"
+        imagePosition="center 25%"
       />
 
       <section className="relative overflow-hidden py-10">
@@ -31,10 +32,7 @@ export default function ContactPage() {
             <ContactForm />
           </Reveal>
 
-          <div className="space-y-4">
-            <ContactInfo />
-            <ServiceArea />
-          </div>
+          <ContactInfo />
         </Container>
       </section>
     </>
