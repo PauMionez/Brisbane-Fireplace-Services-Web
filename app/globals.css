@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4f8fb;
+  --foreground: #1c2430;
+
+  /* Blue theme. Token names kept from the original warm palette so the class
+     names across the app (bg-ember, text-mist, border-line) still resolve —
+     only the values changed. */
+  --color-charcoal: #0f1a2b; /* deep navy — dark sections */
+  --color-charcoal-light: #1c2430;
+  --color-ember: #1f6fb2; /* primary blue */
+  --color-ember-dark: #17558a; /* hover */
+  --color-ember-light: #7cc3f5; /* light blue highlight */
+  --color-cream: #f4f8fb; /* page background */
+  --color-mist: #5f6b7a; /* muted text */
+  --color-line: #d8e3ee; /* borders */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-charcoal: var(--color-charcoal);
+  --color-charcoal-light: var(--color-charcoal-light);
+  --color-ember: var(--color-ember);
+  --color-ember-dark: var(--color-ember-dark);
+  --color-ember-light: var(--color-ember-light);
+  --color-cream: var(--color-cream);
+  --color-mist: var(--color-mist);
+  --color-line: var(--color-line);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: white;
+}
+
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(4%, 6%) scale(1.1);
+  }
+  66% {
+    transform: translate(-3%, -4%) scale(0.95);
+  }
+}
+
+.animate-blob {
+  animation: blob-float 14s ease-in-out infinite;
+}
+
+.animate-blob-delay {
+  animation: blob-float 14s ease-in-out infinite;
+  animation-delay: -7s;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-320px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.animate-ember {
+  animation-name: ember-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes sweep {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
+  }
+}
+
+.animate-sweep {
+  background-size: 200% 100%;
+  animation: sweep 5s linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) skewX(-12deg);
+  }
+  55%,
+  100% {
+    transform: translateX(600%) skewX(-12deg);
+  }
+}
+
+.animate-shine {
+  animation: shine 7s ease-in-out infinite;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float-soft 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
