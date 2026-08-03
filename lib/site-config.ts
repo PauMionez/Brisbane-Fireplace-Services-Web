@@ -6,7 +6,7 @@ export const siteConfig = {
     "Local chimney cleaning and fireplace specialists serving Brisbane and surrounding suburbs. Cleaning, repairs, safety checks and installations.",
   phone: "0421 833 506",
   phoneHref: "tel:+61421833506",
-  email: "unlikanin28@gmail.com",
+  email: "Brisbanefireplaceservices@hotmail.com",
   suburb: "Brisbane",
   hours: "Mon – Fri: 7am – 5pm",
   yearsExperience: 20,
