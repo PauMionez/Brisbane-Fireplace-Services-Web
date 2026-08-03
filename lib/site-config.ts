@@ -1,4 +1,10 @@
 export const siteConfig = {
+  /**
+   * Live site URL — no trailing slash. Used by the sitemap, robots.txt,
+   * canonical tags, Open Graph and structured data. If you move to a custom
+   * domain, this is the only line that needs to change.
+   */
+  url: "https://brisbane-fireplace-services-web.vercel.app",
   name: "Brisbane Fireplace Services",
   shortName: "Brisbane Fireplace Services",
   tagline: "Chimney Cleaning, Repairs & Fireplace Installations",
