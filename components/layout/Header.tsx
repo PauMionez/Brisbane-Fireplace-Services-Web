@@ -32,12 +32,12 @@ export default function Header() {
           {siteConfig.name}
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-6 xl:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="group relative text-sm font-medium text-charcoal-light hover:text-ember"
+              className="group relative text-sm font-medium whitespace-nowrap text-charcoal-light hover:text-ember"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-ember transition-all duration-300 group-hover:w-full" />
@@ -49,7 +49,7 @@ export default function Header() {
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.97 }}
           href={siteConfig.phoneHref}
-          className="hidden shrink-0 items-center gap-2 rounded-full bg-ember px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-ember/30 transition-colors hover:bg-ember-dark lg:inline-flex"
+          className="hidden shrink-0 items-center gap-2 rounded-full bg-ember px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-ember/30 transition-colors hover:bg-ember-dark xl:inline-flex"
         >
           <Phone size={16} />
           {siteConfig.phone}
@@ -60,7 +60,7 @@ export default function Header() {
           onClick={() => setIsOpen((open) => !open)}
           aria-expanded={isOpen}
           aria-label="Toggle menu"
-          className="relative flex h-9 w-9 items-center justify-center lg:hidden"
+          className="relative flex h-9 w-9 items-center justify-center xl:hidden"
         >
           <AnimatePresence mode="wait" initial={false}>
             {isOpen ? (
@@ -97,7 +97,7 @@ export default function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] as const }}
-            className="overflow-hidden border-t border-line lg:hidden"
+            className="overflow-hidden border-t border-line xl:hidden"
           >
             <div className="flex flex-col gap-1 px-6 py-4">
               {navLinks.map((link) => (

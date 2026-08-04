@@ -7,7 +7,7 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Stagger, { staggerItem } from "@/components/ui/Stagger";
-import { services } from "@/lib/data/services";
+import { serviceHref, services } from "@/lib/data/services";
 
 const icons = [Flame, Hammer, Wrench, Shield, Wind, Bird];
 
@@ -24,7 +24,7 @@ export default function ServicesGrid() {
             return (
               <motion.div key={`${service.title}-${index}`} variants={staggerItem}>
                 <Link
-                  href={`/services/${service.slug}`}
+                  href={serviceHref(service)}
                   className="group block h-full rounded-2xl border border-line p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ember hover:shadow-xl hover:shadow-ember/10"
                 >
                   <div className="flex items-start justify-between">

@@ -4,9 +4,15 @@ import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import Stagger, { staggerItemLeft } from "@/components/ui/Stagger";
 
-export default function IssuesList({ issues }: { issues: string[] }) {
+export default function IssuesList({
+  issues,
+  className = "mt-8 grid gap-3 sm:grid-cols-2",
+}: {
+  issues: string[];
+  className?: string;
+}) {
   return (
-    <Stagger as="ul" stagger={0.06} className="mt-8 grid gap-3 sm:grid-cols-2">
+    <Stagger as="ul" stagger={0.06} className={className}>
       {issues.map((issue) => (
         <motion.li
           key={issue}

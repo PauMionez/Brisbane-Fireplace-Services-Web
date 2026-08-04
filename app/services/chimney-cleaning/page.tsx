@@ -5,9 +5,10 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import ParallaxImage from "@/components/ui/ParallaxImage";
-import { commonIssues } from "@/lib/data/services";
+import ServiceDetails from "@/components/ui/ServiceDetails";
+import { commonIssues, detailedServicesFor } from "@/lib/data/services";
 import { siteConfig } from "@/lib/site-config";
-import IssuesList from "./_components/IssuesList";
+import IssuesList from "@/components/ui/IssuesList";
 
 export const metadata: Metadata = {
   title: `Chimney Cleaning | ${siteConfig.name}`,
@@ -62,6 +63,25 @@ export default function ChimneyCleaningPage() {
             <SectionHeading eyebrow="Common Problems" title="Log fire issues we resolve" />
           </Reveal>
           <IssuesList issues={commonIssues} />
+        </Container>
+      </section>
+
+      <section className="py-20">
+        <Container className="max-w-4xl">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Beyond The Sweep"
+              title="Repairs, safety checks and flue work"
+            />
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-6 text-mist leading-relaxed">
+              A clean is often only half the job. These are the things we&apos;re
+              most often called out for alongside it — and the ones that make the
+              difference between a fire that works and one you fight with.
+            </p>
+          </Reveal>
+          <ServiceDetails services={detailedServicesFor("chimney-cleaning")} />
         </Container>
       </section>
 

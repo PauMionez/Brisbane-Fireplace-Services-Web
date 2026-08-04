@@ -24,6 +24,7 @@ export const navLinks = [
   { label: "About", href: "/about" },
   { label: "Chimney Cleaning", href: "/services/chimney-cleaning" },
   { label: "Fireplace Installation", href: "/services/fireplace-installation" },
+  { label: "Service Areas", href: "/service-areas" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ] as const;

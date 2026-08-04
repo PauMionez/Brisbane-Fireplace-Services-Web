@@ -5,6 +5,8 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import ParallaxImage from "@/components/ui/ParallaxImage";
+import ServiceDetails from "@/components/ui/ServiceDetails";
+import { detailedServicesFor } from "@/lib/data/services";
 import { siteConfig } from "@/lib/site-config";
 import OptionsList from "./_components/OptionsList";
 
@@ -63,6 +65,26 @@ export default function FireplaceInstallationPage() {
       <section className="bg-white py-20">
         <Container className="max-w-3xl">
           <OptionsList options={options} />
+        </Container>
+      </section>
+
+      <section className="py-20">
+        <Container className="max-w-4xl">
+          <Reveal>
+            <SectionHeading
+              eyebrow="While We're There"
+              title="Dampers, mesh and keeping the flue sealed"
+            />
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-6 text-mist leading-relaxed">
+              Worth sorting at the same time as an installation, while the flue is
+              already open and we&apos;re already on the roof.
+            </p>
+          </Reveal>
+          <ServiceDetails
+            services={detailedServicesFor("fireplace-installation")}
+          />
         </Container>
       </section>
 
