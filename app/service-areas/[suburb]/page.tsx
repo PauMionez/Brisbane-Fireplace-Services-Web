@@ -174,7 +174,9 @@ export default async function ServiceAreaPage({ params }: Props) {
             <SectionHeading
               eyebrow="Getting There"
               title={
-                area.name === area.region
+                // Avoid "Ipswich City, Ipswich" when one name contains the other.
+                area.name.includes(area.region) ||
+                area.region.includes(area.name)
                   ? `${area.name}, Queensland`
                   : `${area.name}, ${area.region}`
               }

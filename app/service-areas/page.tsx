@@ -28,7 +28,7 @@ export default function ServiceAreasPage() {
         imagePosition="center 70%"
       />
 
-      <section className="py-20">
+      <section className="py-10">
         <Container className="max-w-4xl">
           <Reveal>
             <SectionHeading
@@ -57,7 +57,7 @@ export default function ServiceAreasPage() {
         </Container>
       </section>
 
-      <section className="bg-white py-10 pb-20">
+      <section className="bg-white py-5 pb-20">
         <Container className="max-w-4xl">
           <Reveal>
             <SectionHeading eyebrow="A–Z" title="Areas We Service" />

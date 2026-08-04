@@ -5,6 +5,7 @@ export const regions = [
   "Brisbane East",
   "Brisbane West",
   "Ipswich",
+  "Somerset",
   "Logan",
   "Redlands",
   "Sunshine Coast",
@@ -89,6 +90,38 @@ export const serviceAreas: ServiceArea[] = [
     image: "/images/area-brisbane-east.jpg",
     intro: [
       "Maintain a safe, clean, and efficient fireplace with our professional chimney cleaning services in Brisbane East. We provide expert chimney sweeping, flue cleaning, and fireplace maintenance for homes and businesses across Brisbane's eastern suburbs.",
+    ],
+  },
+  {
+    slug: "brisbane-west",
+    name: "Brisbane West",
+    region: "Brisbane West",
+    heading: "Brisbane West Chimney Cleaning Experts",
+    image: "/images/area-brisbane-west.jpg",
+    intro: [
+      "Keep your fireplace in top condition with expert chimney cleaning throughout Brisbane West. Our detailed cleaning process removes buildup, checks for common chimney issues, and helps ensure your heating system performs safely and efficiently.",
+      "From routine maintenance to seasonal chimney preparation, we deliver professional care you can trust for a warmer, safer home.",
+    ],
+  },
+  {
+    slug: "ipswich-city",
+    name: "Ipswich City",
+    region: "Ipswich",
+    heading: "Ipswich City Chimney Cleaning",
+    image: "/images/area-ipswich-city.jpg",
+    intro: [
+      "A clean chimney means a safer fireplace. Our Ipswich City chimney cleaning service removes soot, creosote, and debris to improve performance, reduce smoke, and keep your fireplace working efficiently. Professional, reliable, and hassle-free service for local homes.",
+    ],
+  },
+  {
+    slug: "somerset-regional",
+    name: "Somerset Regional",
+    region: "Somerset",
+    heading: "Somerset Regional Chimney Cleaning",
+    image: "/images/area-somerset-regional.jpg",
+    intro: [
+      "A well-maintained chimney is essential for a safe and efficient fireplace. Our Somerset Regional chimney cleaning specialists provide detailed cleaning services to remove buildup, improve ventilation, and help extend the life of your fireplace system.",
+      "With careful attention to detail and professional equipment, we deliver reliable chimney care for homes throughout the region.",
     ],
   },
 ];
