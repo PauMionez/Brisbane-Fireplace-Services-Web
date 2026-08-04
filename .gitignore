@@ -4,4 +4,12 @@
 /DOCUMENTATION.md
 /node_modules
 /.next
-/.env   
+/out
+
+# env files — the wildcard matters: .env.local, .env.production etc. all
+# need to stay out of git, not just a file literally named .env
+.env*
+
+# typescript / next build artifacts — regenerated on every build, not source
+*.tsbuildinfo
+next-env.d.ts   
