@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const title = `${areaHeading(area)} | ${siteConfig.name}`;
   const description =
-    areaIntro(area).slice(0, 155).replace(/\s+\S*$/, "") + "…";
+    areaIntro(area).join(" ").slice(0, 155).replace(/\s+\S*$/, "") + "…";
 
   return {
     title,
@@ -53,53 +53,79 @@ export default async function ServiceAreaPage({ params }: Props) {
   return (
     <>
       <PageHero
-        eyebrow={area.region}
+        eyebrow={area.name}
         title={areaHeading(area)}
         description={`Sweeping, repairs and installations for ${area.name} homes and businesses.`}
-        image={area.heroImage ?? "/images/hero-moreton-bay.jpg"}
+        image="/images/gallery-flue-cap-install.jpg"
         imagePosition="center 70%"
       />
 
-      <section className="py-20">
-        <Container className="grid items-center gap-12 lg:grid-cols-2">
-          <div>
+      <section className="relative overflow-hidden py-20">
+
+        {/* Full-width background image — per area, from service-areas.ts */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('${
+              area.image ?? "/images/hero-moreton-bay.jpg"
+            }')`,
+          }}
+        />
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/35" />
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto flex min-h-[720px] max-w-7xl items-center px-6 lg:px-12">
+
+          <div className="max-w-2xl">
+
             <Reveal direction="right">
-              <SectionHeading
-                eyebrow={`Servicing ${area.name}`}
-                title="A local sweep, without the wait"
-              />
-            </Reveal>
-            <Reveal direction="right" delay={0.12}>
-              <p className="mt-6 text-mist leading-relaxed">
-                {areaIntro(area)}
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-sky-400">
+                SERVICING {area.name.toUpperCase()}
               </p>
+
+              <h2 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+                A local sweep,
+                <br />
+                without the wait
+              </h2>
             </Reveal>
+
+            {areaIntro(area).map((paragraph, index) => (
+              <Reveal key={index} direction="right" delay={0.12 + index * 0.08}>
+                <p
+                  className={`${
+                    index === 0 ? "mt-8" : "mt-6"
+                  } text-lg leading-8 text-white/90`}
+                >
+                  {paragraph}
+                </p>
+              </Reveal>
+            ))}
+
             <Reveal direction="right" delay={0.2}>
-              <p className="mt-4 text-mist leading-relaxed">
+              <p className="mt-6 text-lg leading-8 text-white/90">
                 After {siteConfig.yearsExperience} years across South East
-                Queensland we&apos;ve worked on just about every appliance and
-                flue arrangement going — open masonry fireplaces, modern inserts,
+                Queensland we&apos;ve worked on just about every appliance and flue
+                arrangement going — open masonry fireplaces, modern inserts,
                 freestanding wood heaters and everything fitted in between.
                 {area.note ? ` ${area.note}` : ""}
               </p>
             </Reveal>
+
             <Reveal direction="right" delay={0.28}>
               <a
                 href={siteConfig.phoneHref}
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-ember px-6 py-3 text-sm font-semibold tracking-wide text-white uppercase shadow-lg shadow-ember/30 transition-colors hover:bg-ember-dark"
+                className="mt-10 inline-flex items-center gap-3 rounded-full bg-ember px-7 py-4 text-sm font-semibold uppercase tracking-wide text-white shadow-xl transition hover:bg-ember-dark"
               >
-                <Phone size={16} />
+                <Phone size={18} />
                 {siteConfig.phone}
               </a>
             </Reveal>
-          </div>
 
-          <ParallaxImage
-            src="/images/gallery-flue-cap-install.jpg"
-            alt="A flue cap fitted on a rooftop chimney"
-            delay={0.1}
-          />
-        </Container>
+          </div>
+        </div>
       </section>
 
       <section className="bg-white py-20">
@@ -145,7 +171,14 @@ export default async function ServiceAreaPage({ params }: Props) {
       <section className="bg-white py-20">
         <Container className="max-w-4xl">
           <Reveal>
-            <SectionHeading eyebrow="Getting There" title={`${area.name}, ${area.region}`} />
+            <SectionHeading
+              eyebrow="Getting There"
+              title={
+                area.name === area.region
+                  ? `${area.name}, Queensland`
+                  : `${area.name}, ${area.region}`
+              }
+            />
           </Reveal>
           <Reveal delay={0.12}>
             <div className="relative mt-8 aspect-4/3 w-full overflow-hidden rounded-2xl ring-1 ring-line sm:aspect-video">
