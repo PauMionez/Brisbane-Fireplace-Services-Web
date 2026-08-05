@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Flame } from "lucide-react";
@@ -33,19 +32,25 @@ export default function Hero() {
       className="relative overflow-hidden bg-charcoal text-white"
     >
       <motion.div aria-hidden style={{ y: backdropY }} className="absolute inset-0 scale-110">
-        <Image
-          src="/images/hero.jpg"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
+        {/* Muted regardless of the source clip having audio — autoplay in
+            every browser requires it, and a hero background shouldn't make
+            noise on its own anyway. hero.jpg covers the moment before the
+            video has enough data to paint a frame. */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/images/hero.jpg"
+          className="h-full w-full object-cover"
+        >
+          <source src="/videos/hero-fireplace-loop.mp4" type="video/mp4" />
+        </video>
         {/* Scrim is directional, not flat: heavy on the left where the text
             sits, lifting to the right so the fireplace stays visible. */}
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/80 to-charcoal/25" />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-charcoal/30" />
-        {/* Just enough blue to tie the photo to the theme. */}
+        {/* Just enough blue to tie the footage to the theme. */}
         <div className="absolute inset-0 bg-ember/10" />
       </motion.div>
 
