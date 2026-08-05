@@ -7,15 +7,17 @@ import CtaBanner from "@/components/sections/CtaBanner";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
-import ParallaxImage from "@/components/ui/ParallaxImage";
 import IssuesList from "@/components/ui/IssuesList";
 import { commonIssues, serviceHref, services } from "@/lib/data/services";
+import JsonLd from "@/components/seo/JsonLd";
 import {
   areaHeading,
   areaIntro,
   findArea,
   serviceAreas,
+  type ServiceArea,
 } from "@/lib/data/service-areas";
+import { areaServiceSchema, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 
 type Props = { params: Promise<{ suburb: string }> };
@@ -24,21 +26,32 @@ export function generateStaticParams() {
   return serviceAreas.map((area) => ({ suburb: area.slug }));
 }
 
+/**
+ * Trimmed to roughly the width Google renders before truncating, cut on a word
+ * boundary. Built from the page's own opening copy so the snippet and the page
+ * always say the same thing.
+ */
+function areaDescription(area: ServiceArea): string {
+  const full = areaIntro(area).join(" ");
+  if (full.length <= 155) return full;
+  return full.slice(0, 155).replace(/\s+\S*$/, "") + "…";
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { suburb } = await params;
   const area = findArea(suburb);
   if (!area) return {};
 
-  const title = `${areaHeading(area)} | ${siteConfig.name}`;
-  const description =
-    areaIntro(area).join(" ").slice(0, 155).replace(/\s+\S*$/, "") + "…";
-
-  return {
-    title,
-    description,
-    alternates: { canonical: `/service-areas/${area.slug}` },
-    openGraph: { title, description, url: `/service-areas/${area.slug}` },
-  };
+  return pageMetadata({
+    // Deliberately shorter than the H1. `areaHeading` reads well on the page
+    // but "Professional Chimney Cleaning in Wellington Point | Brisbane
+    // Fireplace Services" is 79 characters and Google cuts it off around 60.
+    // Keyword and suburb go first; only the tail of the brand gets clipped.
+    title: `Chimney Cleaning in ${area.name}`,
+    description: areaDescription(area),
+    path: `/service-areas/${area.slug}`,
+    image: area.image ?? "/images/hero-moreton-bay.jpg",
+  });
 }
 
 export default async function ServiceAreaPage({ params }: Props) {
@@ -52,6 +65,22 @@ export default async function ServiceAreaPage({ params }: Props) {
 
   return (
     <>
+      {/* areaServed is narrowed to this one suburb, so each area page carries a
+          distinct local signal rather than 42 pages claiming the same reach. */}
+      <JsonLd
+        schema={[
+          areaServiceSchema({
+            areaName: area.name,
+            description: areaDescription(area),
+            path: `/service-areas/${area.slug}`,
+          }),
+          breadcrumbSchema([
+            { name: "Service Areas", path: "/service-areas" },
+            { name: area.name, path: `/service-areas/${area.slug}` },
+          ]),
+        ]}
+      />
+
       <PageHero
         eyebrow={area.name}
         title={areaHeading(area)}

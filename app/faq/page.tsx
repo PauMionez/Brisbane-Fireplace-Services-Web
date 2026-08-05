@@ -3,17 +3,22 @@ import PageHero from "@/components/sections/PageHero";
 import Container from "@/components/ui/Container";
 import Accordion from "@/components/ui/Accordion";
 import { faqItems } from "@/lib/data/faq";
-import { siteConfig } from "@/lib/site-config";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import ContactCards from "./_components/ContactCards";
 
-export const metadata: Metadata = {
-  title: `FAQ | ${siteConfig.name}`,
-  description: "Frequently asked questions about our chimney and fireplace services.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Chimney Sweep FAQ",
+  description:
+    "How often should a chimney be cleaned? How long does a sweep take? Is it messy? Answers to the questions Brisbane homeowners ask us most.",
+  path: "/faq",
+  image: "/images/hero-faq.jpg",
+});
 
 export default function FaqPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "FAQ", path: "/faq" }])} />
       <PageHero
         eyebrow="F.A.Q."
         title="Frequently Asked Questions"

@@ -4,7 +4,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MotionProvider from "@/components/ui/MotionProvider";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import { serviceAreas } from "@/lib/data/service-areas";
+import JsonLd from "@/components/seo/JsonLd";
+import { absoluteUrl, localBusinessSchema } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -23,13 +24,19 @@ const siteTitle = `${siteConfig.name} | ${siteConfig.tagline}`;
 export const metadata: Metadata = {
   // Makes every relative URL below (and per-page canonicals) resolve absolutely.
   metadataBase: new URL(siteConfig.url),
+  // No `title.template` here on purpose — pageMetadata() builds each page's
+  // full title so the <title> and og:title are set from one place.
+  //
+  // The home page overrides <title> with a keyword-first version for search
+  // but inherits this brand-first og:title, which is the one that reads better
+  // when the link is shared.
   title: siteTitle,
   description: siteConfig.description,
-  alternates: { canonical: "/" },
+  alternates: { canonical: absoluteUrl("/") },
   openGraph: {
     type: "website",
     locale: "en_AU",
-    url: siteConfig.url,
+    url: absoluteUrl("/"),
     siteName: siteConfig.name,
     title: siteTitle,
     description: siteConfig.description,
@@ -41,46 +48,14 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: ["/images/hero.jpg"],
   },
-  robots: { index: true, follow: true },
-};
-
-/**
- * LocalBusiness structured data. Tells Google the phone, hours and service
- * area in machine-readable form — the signals that matter for local search.
- */
-const businessSchema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${siteConfig.url}/#business`,
-  name: siteConfig.name,
-  description: siteConfig.description,
-  url: siteConfig.url,
-  telephone: siteConfig.phoneHref.replace("tel:", ""),
-  email: siteConfig.email,
-  image: `${siteConfig.url}/images/hero.jpg`,
-  priceRange: "$$",
-  sameAs: [siteConfig.facebookUrl],
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Brisbane",
-    addressRegion: "QLD",
-    addressCountry: "AU",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
-  // Every suburb with its own /service-areas/ page — tells Google the full
-  // reach of the business, not just the three broad regions. Stays in sync
-  // automatically as suburbs are added in service-areas.ts.
-  areaServed: serviceAreas.map((area) => ({
-    "@type": "City",
-    name: area.name,
-  })),
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "07:00",
-      closes: "17:00",
-    },
-  ],
+  // Australian English and the local phone number, spelled out for crawlers
+  // that read these rather than inferring from copy.
+  other: { "geo.region": "AU-QLD", "geo.placename": "Brisbane" },
 };
 
 export default function RootLayout({
@@ -94,12 +69,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-cream text-foreground">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(businessSchema).replace(/</g, "\\u003c"),
-          }}
-        />
+        {/* LocalBusiness — the anchor every other schema block references by
+            @id. Sitewide, so it appears on all 49 pages. */}
+        <JsonLd schema={localBusinessSchema()} />
         <MotionProvider>
           <ScrollProgress />
           <Header />

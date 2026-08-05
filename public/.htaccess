@@ -15,6 +15,10 @@ Redirect 301 /gallery/ /
 # /about/ and /contact/ keep the same URL on the new site, so they need no
 # redirect. Everything else 404s normally, which is correct.
 
+# Serves the exported 404 page (app/not-found.tsx) instead of Apache's generic
+# one. That page is noindex, so Google won't index broken URLs as content.
+ErrorDocument 404 /404.html
+
 # --- Static hosting niceties (safe to remove if the host already sets these) ---
 <IfModule mod_expires.c>
   ExpiresActive On

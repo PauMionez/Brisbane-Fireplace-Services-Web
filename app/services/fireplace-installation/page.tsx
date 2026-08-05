@@ -7,13 +7,19 @@ import Reveal from "@/components/ui/Reveal";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import ServiceDetails from "@/components/ui/ServiceDetails";
 import { detailedServicesFor } from "@/lib/data/services";
-import { siteConfig } from "@/lib/site-config";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata, serviceSchema } from "@/lib/seo";
 import OptionsList from "./_components/OptionsList";
 
-export const metadata: Metadata = {
-  title: `Fireplace Installation | ${siteConfig.name}`,
-  description: "A wide range of options for your fireplace installation needs.",
-};
+const description =
+  "Fireplace and wood heater installation across Brisbane. Supply and install or install only, brand-independent advice, and a flue fitted right the first time.";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Fireplace & Wood Heater Installation",
+  description,
+  path: "/services/fireplace-installation",
+  image: "/images/hero-fireplace-installation.jpg",
+});
 
 const options = [
   {
@@ -31,6 +37,21 @@ const options = [
 export default function FireplaceInstallationPage() {
   return (
     <>
+      <JsonLd
+        schema={[
+          serviceSchema({
+            name: "Fireplace Installation",
+            description,
+            path: "/services/fireplace-installation",
+          }),
+          breadcrumbSchema([
+            {
+              name: "Fireplace Installation",
+              path: "/services/fireplace-installation",
+            },
+          ]),
+        ]}
+      />
       <PageHero
         eyebrow="Fireplace Installation"
         title="A wide range of options for your fireplace installation needs"

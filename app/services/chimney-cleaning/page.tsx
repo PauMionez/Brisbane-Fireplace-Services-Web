@@ -7,18 +7,37 @@ import Reveal from "@/components/ui/Reveal";
 import ParallaxImage from "@/components/ui/ParallaxImage";
 import ServiceDetails from "@/components/ui/ServiceDetails";
 import { commonIssues, detailedServicesFor } from "@/lib/data/services";
-import { siteConfig } from "@/lib/site-config";
 import IssuesList from "@/components/ui/IssuesList";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata, serviceSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Chimney Cleaning | ${siteConfig.name}`,
-  description:
-    "Expert chimney cleaning that keeps your fireplace running safely and efficiently.",
-};
+const description =
+  "Professional chimney sweeping and flue cleaning in Brisbane. We remove soot, creosote and blockages to keep your fireplace drawing properly and safely. Industrial vacuum, no mess left behind.";
+
+export const metadata: Metadata = pageMetadata({
+  // "Brisbane" is already in the site name pageMetadata appends — repeating it
+  // here only spends characters Google would truncate.
+  title: "Chimney Cleaning & Sweeping",
+  description,
+  path: "/services/chimney-cleaning",
+  image: "/images/hero-chimney-cleaning.jpg",
+});
 
 export default function ChimneyCleaningPage() {
   return (
     <>
+      <JsonLd
+        schema={[
+          serviceSchema({
+            name: "Chimney Cleaning",
+            description,
+            path: "/services/chimney-cleaning",
+          }),
+          breadcrumbSchema([
+            { name: "Chimney Cleaning", path: "/services/chimney-cleaning" },
+          ]),
+        ]}
+      />
       <PageHero
         eyebrow="Chimney Cleaning"
         title="Ensure your fireplace runs safely and efficiently"

@@ -6,20 +6,27 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { hubsWithChildren, serviceAreas } from "@/lib/data/service-areas";
-import { siteConfig } from "@/lib/site-config";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: `Service Areas | ${siteConfig.name}`,
+export const metadata: Metadata = pageMetadata({
+  title: "Service Areas",
   description:
-    "Chimney cleaning, repairs and fireplace installation across Brisbane, Ipswich, Logan, Redlands, the Sunshine Coast and the Gold Coast.",
-  alternates: { canonical: "/service-areas" },
-};
+    "Chimney cleaning, repairs and fireplace installation across Brisbane, Ipswich, Logan, Redlands, Moreton Bay, the Sunshine Coast and the Gold Coast.",
+  path: "/service-areas",
+  image: "/images/hero-moreton-bay.jpg",
+});
 
 export default function ServiceAreasPage() {
   const groups = hubsWithChildren();
 
   return (
     <>
+      <JsonLd
+        schema={breadcrumbSchema([
+          { name: "Service Areas", path: "/service-areas" },
+        ])}
+      />
       <PageHero
         eyebrow="Service Areas"
         title="Where we work"

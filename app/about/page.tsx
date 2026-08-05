@@ -6,16 +6,21 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import LazyVideo from "@/components/ui/LazyVideo";
 import { siteConfig } from "@/lib/site-config";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import StatsPanel from "./_components/StatsPanel";
 
-export const metadata: Metadata = {
-  title: `About | ${siteConfig.name}`,
-  description: `Learn more about ${siteConfig.name} and our chimney and fireplace work.`,
-};
+export const metadata: Metadata = pageMetadata({
+  title: "About Our Chimney Sweeps",
+  description: `Meet the team behind ${siteConfig.name} — ${siteConfig.yearsExperience} years cleaning, repairing and installing fireplaces and chimneys across Brisbane and South East Queensland.`,
+  path: "/about",
+  image: "/images/hero-about.jpg",
+});
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "About", path: "/about" }])} />
       <PageHero
         eyebrow="About Us"
         title="Read more about us and our chimney work"

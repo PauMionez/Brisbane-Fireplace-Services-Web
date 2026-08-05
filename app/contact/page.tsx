@@ -4,16 +4,21 @@ import Container from "@/components/ui/Container";
 import ContactForm from "@/components/ui/ContactForm";
 import Reveal from "@/components/ui/Reveal";
 import { siteConfig } from "@/lib/site-config";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import ContactInfo from "./_components/ContactInfo";
 
-export const metadata: Metadata = {
-  title: `Contact | ${siteConfig.name}`,
-  description: "Get in touch with us — we're happy to help.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Us",
+  description: `Book a chimney sweep or ask about a fireplace installation anywhere in Brisbane. Call ${siteConfig.phone} or send us a message — ${siteConfig.hours}.`,
+  path: "/contact",
+  image: "/images/hero-contact.jpg",
+});
 
 export default function ContactPage() {
   return (
     <>
+      <JsonLd schema={breadcrumbSchema([{ name: "Contact", path: "/contact" }])} />
       <PageHero
         eyebrow="Contact Us"
         title="Make a question"
