@@ -15,8 +15,7 @@ type GalleryItem =
   | { kind: "video"; src: string; caption: string; span?: Span }
   | { kind: "photo"; src: string; caption: string; span?: Span };
 
-// Bento layout: one tall tile, one wide tile, the rest fill in as normal
-// squares. grid-flow-dense lets the browser backfill any gaps that leaves.
+
 const items: GalleryItem[] = [
   {
     kind: "photo",

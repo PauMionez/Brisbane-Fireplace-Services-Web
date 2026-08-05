@@ -15,8 +15,6 @@ const description =
   "Professional chimney sweeping and flue cleaning in Brisbane. We remove soot, creosote and blockages to keep your fireplace drawing properly and safely. Industrial vacuum, no mess left behind.";
 
 export const metadata: Metadata = pageMetadata({
-  // "Brisbane" is already in the site name pageMetadata appends — repeating it
-  // here only spends characters Google would truncate.
   title: "Chimney Cleaning & Sweeping",
   description,
   path: "/services/chimney-cleaning",

@@ -43,7 +43,7 @@ export default function PageHero({
   eyebrow: string;
   title: string;
   description?: string;
-  /** Optional background photo. Without it the hero stays flat navy. */
+  
   image?: string;
   imagePosition?: string;
 }) {

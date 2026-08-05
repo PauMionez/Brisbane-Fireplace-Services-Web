@@ -70,10 +70,15 @@ export default function ServiceAreasPage() {
             <SectionHeading eyebrow="By Region" title="Areas We Service" />
           </Reveal>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          
+          <div className="mt-8 gap-4 [column-fill:balance] sm:columns-2">
             {groups.map(({ hub, children }, index) => (
-              <Reveal key={hub.slug} delay={index * 0.05}>
-                <div className="h-full rounded-2xl border border-line bg-cream p-6 transition-colors hover:border-ember">
+              <Reveal
+                key={hub.slug}
+                delay={index * 0.05}
+                className="mb-4 break-inside-avoid"
+              >
+                <div className="rounded-2xl border border-line bg-cream p-6 transition-colors hover:border-ember">
                   <Link
                     href={`/service-areas/${hub.slug}`}
                     className="text-lg font-semibold text-charcoal hover:text-ember"

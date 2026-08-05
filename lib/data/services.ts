@@ -1,14 +1,9 @@
 export type Service = {
-  /** Which service page this belongs to. */
   slug: string;
   title: string;
-  /** Short line used on the home page cards. */
   summary: string;
-  /** Anchor id, so a card can link straight to this section on the page. */
   anchor?: string;
-  /** Longer copy rendered as a section on the service page. */
   detail?: string;
-  /** What's actually involved. */
   points?: string[];
 };
 

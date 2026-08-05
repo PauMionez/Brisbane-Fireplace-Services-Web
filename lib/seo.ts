@@ -16,7 +16,6 @@ export function absoluteUrl(path = "/"): string {
   return trimmed ? `${siteConfig.url}/${trimmed}/` : `${siteConfig.url}/`;
 }
 
-/** Every page's OG image. Overridden per page where a better shot exists. */
 const defaultOgImage = "/images/hero.jpg";
 
 /**
@@ -31,7 +30,6 @@ export function pageMetadata({
   path,
   image = defaultOgImage,
 }: {
-  /** Without the site name — that gets appended here. */
   title: string;
   description: string;
   path: string;
@@ -62,8 +60,13 @@ export function pageMetadata({
   };
 }
 
-/** Stable node id so other schema blocks can reference the business by @id. */
 export const businessId = `${siteConfig.url}/#business`;
+
+/** The 9 regions — areas with no parent. Used wherever listing all 446 would
+ *  bloat the page without telling Google anything extra. */
+function regionHubs() {
+  return serviceAreas.filter((area) => !area.parentSlug);
+}
 
 /**
  * LocalBusiness — the anchor for local search. No `address.streetAddress` or
@@ -92,12 +95,9 @@ export function localBusinessSchema() {
       addressRegion: "QLD",
       addressCountry: "AU",
     },
-    // Every suburb with its own /service-areas/ page — tells Google the full
-    // reach of the business, not just the broad regions. Stays in sync
-    // automatically as suburbs are added in service-areas.ts.
-    areaServed: serviceAreas.map((area) => ({
+    areaServed: regionHubs().map((hub) => ({
       "@type": "City",
-      name: area.name,
+      name: hub.name,
       containedInPlace: {
         "@type": "State",
         name: "Queensland",
@@ -112,8 +112,6 @@ export function localBusinessSchema() {
       "Wood heater servicing",
       "Chimney inspections",
     ],
-    // Mirrors the two service pages, so the things people actually search for
-    // are attached to the business rather than buried in page copy.
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Chimney and fireplace services",
@@ -195,9 +193,9 @@ export function serviceSchema({
     serviceType: name,
     url: absoluteUrl(path),
     provider: { "@id": businessId },
-    areaServed: serviceAreas.map((area) => ({
+    areaServed: regionHubs().map((hub) => ({
       "@type": "City",
-      name: area.name,
+      name: hub.name,
     })),
   };
 }

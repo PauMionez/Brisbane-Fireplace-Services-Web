@@ -32,10 +32,7 @@ export default function Hero() {
       className="relative overflow-hidden bg-charcoal text-white"
     >
       <motion.div aria-hidden style={{ y: backdropY }} className="absolute inset-0 scale-110">
-        {/* Muted regardless of the source clip having audio — autoplay in
-            every browser requires it, and a hero background shouldn't make
-            noise on its own anyway. hero.jpg covers the moment before the
-            video has enough data to paint a frame. */}
+        
         <video
           autoPlay
           loop

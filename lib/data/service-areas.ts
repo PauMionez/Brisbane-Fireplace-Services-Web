@@ -1,3 +1,5 @@
+import { suburbsFor } from "@/lib/data/suburbs-by-region";
+
 export const regions = [
   "Brisbane Central",
   "Brisbane North",
@@ -16,37 +18,18 @@ export const regions = [
 export type Region = (typeof regions)[number];
 
 export type ServiceArea = {
-  /** URL segment: /service-areas/<slug> */
   slug: string;
   name: string;
   region: Region;
-  /**
-   * One line of genuinely local detail — how often you're there, the kind of
-   * chimneys common in the area, a job you've done nearby. Optional, but it's
-   * what makes these pages worth having rather than filler. Fill them in as
-   * you learn them.
-   */
   note?: string;
-  /** Overrides the generated H1 when the client has supplied their own. */
   heading?: string;
-  /** Overrides the generated opening copy. One string per paragraph. */
   intro?: string[];
-  /** Background photo for the "A local sweep" section on this area's page. */
   image?: string;
-  /**
-   * Marks this as a sub-suburb tagged under a "hub" area (by slug). Unless
-   * this area sets its own `heading`/`intro` above, it inherits the parent's —
-   * with every occurrence of the parent's name swapped for this area's name.
-   * Edit the hub's copy once and every suburb tagged under it updates too.
-   */
   parentSlug?: string;
 };
 
-export const serviceAreas: ServiceArea[] = [
-  // ---------------------------------------------------------------------
-  // Hub areas — each has its own client-supplied copy. The rest fall back
-  // to the generated wording in areaHeading() / areaIntro() further down.
-  // ---------------------------------------------------------------------
+
+const curatedAreas: ServiceArea[] = [
   {
     slug: "moreton-bay",
     name: "Moreton Bay",
@@ -133,11 +116,6 @@ export const serviceAreas: ServiceArea[] = [
     ],
   },
 
-  // ---------------------------------------------------------------------
-  // Suburbs tagged under each hub above. No copy of their own — each one
-  // inherits its hub's heading/intro with the place name swapped in.
-  // ---------------------------------------------------------------------
-
   // Brisbane North
   { slug: "bracken-ridge", name: "Bracken Ridge", region: "Brisbane North", parentSlug: "brisbane-north" },
   { slug: "chermside", name: "Chermside", region: "Brisbane North", parentSlug: "brisbane-north" },
@@ -190,17 +168,53 @@ export const serviceAreas: ServiceArea[] = [
   { slug: "woodford", name: "Woodford", region: "Moreton Bay", parentSlug: "moreton-bay" },
 ];
 
-/**
- * Client-supplied copy, applied to every hub page with the place name swapped
- * in. A hub can override either via its `heading` / `intro` fields — do that
- * wherever you have something specific to say, because these two functions
- * produce the same text on every page apart from the name.
- *
- * A suburb tagged under a hub (via `parentSlug`) with no copy of its own
- * inherits the hub's resolved heading/intro, with the hub's name swapped for
- * the suburb's — so editing a hub's copy updates every suburb tagged under
- * it automatically.
- */
+/** "Upper Mt Gravatt" and "Upper Mount Gravatt" are the same place. */
+function normaliseName(name: string): string {
+  return name.toLowerCase().replace(/\bmt\b/g, "mount").replace(/[^a-z]/g, "");
+}
+
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function generatedAreas(): ServiceArea[] {
+  const taken = new Set(curatedAreas.map((area) => normaliseName(area.name)));
+  const usedSlugs = new Set(curatedAreas.map((area) => area.slug));
+  const generated: ServiceArea[] = [];
+
+  for (const hub of curatedAreas.filter((area) => !area.parentSlug)) {
+    for (const name of suburbsFor(hub.slug)) {
+      const key = normaliseName(name);
+      
+      if (taken.has(key)) continue;
+
+      let slug = slugify(name);
+      if (usedSlugs.has(slug)) slug = `${slug}-${hub.slug}`;
+
+      taken.add(key);
+      usedSlugs.add(slug);
+      generated.push({
+        slug,
+        name,
+        region: hub.region,
+        parentSlug: hub.slug,
+      });
+    }
+  }
+
+  return generated;
+}
+
+export const serviceAreas: ServiceArea[] = [
+  ...curatedAreas,
+  ...generatedAreas(),
+];
+
+
 export function areaHeading(area: ServiceArea): string {
   if (area.heading) return area.heading;
   if (area.parentSlug) {
@@ -228,16 +242,12 @@ export function areaIntro(area: ServiceArea): string[] {
   ];
 }
 
-/** All areas, A–Z by name. */
+
 export function areasAlphabetical() {
   return [...serviceAreas].sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/**
- * Hub areas paired with the suburbs tagged under each one, in the order
- * hubs appear in `serviceAreas`. This is what the service-areas index page
- * renders — a hub, then its suburbs as small tags underneath.
- */
+
 export function hubsWithChildren() {
   const hubs = serviceAreas.filter((area) => !area.parentSlug);
   return hubs.map((hub) => ({

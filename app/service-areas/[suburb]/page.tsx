@@ -8,6 +8,8 @@ import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import IssuesList from "@/components/ui/IssuesList";
+import SuburbList from "@/components/ui/SuburbList";
+import { suburbsFor } from "@/lib/data/suburbs-by-region";
 import { commonIssues, serviceHref, services } from "@/lib/data/services";
 import JsonLd from "@/components/seo/JsonLd";
 import {
@@ -26,11 +28,7 @@ export function generateStaticParams() {
   return serviceAreas.map((area) => ({ suburb: area.slug }));
 }
 
-/**
- * Trimmed to roughly the width Google renders before truncating, cut on a word
- * boundary. Built from the page's own opening copy so the snippet and the page
- * always say the same thing.
- */
+
 function areaDescription(area: ServiceArea): string {
   const full = areaIntro(area).join(" ");
   if (full.length <= 155) return full;
@@ -43,10 +41,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!area) return {};
 
   return pageMetadata({
-    // Deliberately shorter than the H1. `areaHeading` reads well on the page
-    // but "Professional Chimney Cleaning in Wellington Point | Brisbane
-    // Fireplace Services" is 79 characters and Google cuts it off around 60.
-    // Keyword and suburb go first; only the tail of the brand gets clipped.
     title: `Chimney Cleaning in ${area.name}`,
     description: areaDescription(area),
     path: `/service-areas/${area.slug}`,
@@ -63,10 +57,11 @@ export default async function ServiceAreaPage({ params }: Props) {
     `${area.name} QLD`
   )}&z=12&output=embed`;
 
+  // Populated on the 9 region hubs, empty on the individual suburb pages.
+  const suburbs = suburbsFor(area.slug);
+
   return (
     <>
-      {/* areaServed is narrowed to this one suburb, so each area page carries a
-          distinct local signal rather than 42 pages claiming the same reach. */}
       <JsonLd
         schema={[
           areaServiceSchema({
@@ -196,6 +191,29 @@ export default async function ServiceAreaPage({ params }: Props) {
           <IssuesList issues={commonIssues} />
         </Container>
       </section>
+
+      {suburbs.length > 0 && (
+        <section className="bg-white py-20">
+          <Container className="max-w-4xl">
+            <Reveal>
+              <SectionHeading
+                eyebrow="Suburbs We Cover"
+                title={`${suburbs.length} suburbs across ${area.name}`}
+              />
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="mt-6 text-mist leading-relaxed">
+                We service the whole of {area.name}. If your suburb is on this
+                list we can get to you — and if it isn&apos;t, it&apos;s still
+                worth a call, because we cover more ground than fits on one page.
+              </p>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <SuburbList suburbs={suburbs} currentSlug={area.slug} />
+            </Reveal>
+          </Container>
+        </section>
+      )}
 
       <section className="bg-white py-20">
         <Container className="max-w-4xl">
