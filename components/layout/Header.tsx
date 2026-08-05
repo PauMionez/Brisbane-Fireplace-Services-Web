@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -28,16 +29,23 @@ export default function Header() {
           isScrolled ? "py-3" : "py-5"
         }`}
       >
-        <Link href="/" className="text-lg font-bold tracking-tight text-charcoal">
-          {siteConfig.name}
+        <Link href="/" className="shrink-0">
+          <Image
+            src="/images/logo.png"
+            alt={siteConfig.name}
+            width={329}
+            height={193}
+            priority
+            className="h-16 w-auto object-contain sm:h-30"
+          />
         </Link>
 
-        <nav className="hidden items-center gap-6 xl:flex">
+        <nav className="hidden items-center gap-7 xl:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="group relative text-sm font-medium whitespace-nowrap text-charcoal-light hover:text-ember"
+              className="group relative text-base font-semibold whitespace-nowrap text-charcoal-light hover:text-ember"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 h-px w-0 bg-ember transition-all duration-300 group-hover:w-full" />
@@ -105,7 +113,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="rounded-md px-2 py-2 text-sm font-medium text-charcoal-light hover:bg-white hover:text-ember"
+                  className="rounded-md px-2 py-2.5 text-base font-semibold text-charcoal-light hover:bg-white hover:text-ember"
                 >
                   {link.label}
                 </Link>

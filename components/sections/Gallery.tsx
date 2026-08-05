@@ -2,29 +2,65 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Search } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import Stagger, { staggerItem } from "@/components/ui/Stagger";
 import LazyVideo from "@/components/ui/LazyVideo";
 
-type GalleryItem =
-  | { kind: "video"; src: string; caption: string }
-  | { kind: "photo"; src: string; caption: string };
+type Span = "tall" | "wide" | undefined;
 
+type GalleryItem =
+  | { kind: "video"; src: string; caption: string; span?: Span }
+  | { kind: "photo"; src: string; caption: string; span?: Span };
+
+// Bento layout: one tall tile, one wide tile, the rest fill in as normal
+// squares. grid-flow-dense lets the browser backfill any gaps that leaves.
 const items: GalleryItem[] = [
-  { kind: "video", src: "/videos/fireplace-loop.mp4", caption: "On the job" },
   {
     kind: "photo",
-    src: "/images/gallery-freestanding-cylinder.jpg",
-    caption: "Modern freestanding installs",
+    src: "/images/gallery-flue-replace-before-after.jpg",
+    caption: "Before & after: flue replaced",
+    span: "tall",
   },
-  { kind: "photo", src: "/images/gallery-coonara-heater.jpg", caption: "Freestanding wood heaters" },
-  { kind: "photo", src: "/images/gallery-flue-cap-install.jpg", caption: "New flue caps fitted" },
-  { kind: "photo", src: "/images/gallery-chimney-cowl.jpg", caption: "Cowls and top caps" },
-  { kind: "photo", src: "/images/gallery-commercial-flues.jpg", caption: "Commercial rooftop flues" },
+  {
+    kind: "photo",
+    src: "/images/gallery-chimney-clean-before-after.jpg",
+    caption: "Before & after: chimney sweep",
+  },
+  {
+    kind: "photo",
+    src: "/images/gallery-chimney-cap-before-after.jpg",
+    caption: "Before & after: new chimney cap",
+  },
+  {
+    kind: "photo",
+    src: "/images/gallery-heritage-fireplace-clean.jpg",
+    caption: "Heritage fireplace, cleaned",
+  },
+  {
+    kind: "video",
+    src: "/videos/fireplace-loop.mp4",
+    caption: "On the job",
+    span: "tall",
+  },
+  {
+    kind: "photo",
+    src: "/images/gallery-repainted-heater.jpg",
+    caption: "Freshly repainted heater",
+  },
+  {
+    kind: "photo",
+    src: "/images/gallery-firebricks-replaced.jpg",
+    caption: "Firebricks replaced",
+  },
 ];
+
+const spanClass: Record<NonNullable<Span>, string> = {
+  tall: "row-span-2",
+  wide: "col-span-2",
+};
 
 export default function Gallery() {
   return (
@@ -33,19 +69,24 @@ export default function Gallery() {
         <Reveal>
           <SectionHeading eyebrow="Our Work" title="A Look at Recent Jobs" align="center" />
         </Reveal>
-        <Stagger className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3">
+
+        <Stagger
+          className="mt-12 grid grid-cols-2 grid-flow-dense auto-rows-[12rem] gap-4 sm:grid-cols-3 sm:auto-rows-[14rem]"
+        >
           {items.map((item) => (
             <motion.div
               key={item.src}
               variants={staggerItem}
-              className="group relative aspect-square overflow-hidden rounded-2xl bg-charcoal"
+              className={`group relative overflow-hidden rounded-2xl bg-charcoal ${
+                item.span ? spanClass[item.span] : ""
+              }`}
             >
               {item.kind === "video" ? (
                 <>
                   <LazyVideo
                     src={item.src}
                     label={item.caption}
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                   <span
                     aria-hidden
@@ -59,12 +100,24 @@ export default function Gallery() {
                   src={item.src}
                   alt={item.caption}
                   fill
-                  sizes="(min-width: 640px) 33vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes={
+                    item.span === "wide"
+                      ? "(min-width: 640px) 66vw, 100vw"
+                      : "(min-width: 640px) 33vw, 50vw"
+                  }
+                  className="object-cover"
                 />
               )}
-              <div className="absolute inset-0 flex items-end bg-gradient-to-t from-charcoal/80 via-charcoal/0 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <p className="text-sm font-medium text-white">{item.caption}</p>
+
+              {/* Hover reveal: dark tint + centred icon + caption, consistent
+                  across every tile including the video. */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-charcoal/0 opacity-0 transition-all duration-300 group-hover:bg-charcoal/60 group-hover:opacity-100">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-charcoal">
+                  {item.kind === "video" ? <Play size={18} /> : <Search size={18} />}
+                </span>
+                <p className="px-4 text-center text-sm font-medium text-white">
+                  {item.caption}
+                </p>
               </div>
             </motion.div>
           ))}

@@ -17,7 +17,7 @@ export default function Button({
   className = "",
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide uppercase transition-colors";
+    "inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-bold tracking-wide uppercase transition-colors";
 
   const styles =
     variant === "primary"
