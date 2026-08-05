@@ -106,8 +106,8 @@ export default async function ServiceAreaPage({ params }: Props) {
 
             <Reveal direction="right" delay={0.2}>
               <p className="mt-6 text-lg leading-8 text-white/90">
-                After {siteConfig.yearsExperience} years across South East
-                Queensland we&apos;ve worked on just about every appliance and flue
+                After {siteConfig.yearsExperience}{" "}
+                years across South East Queensland we&apos;ve worked on just about every appliance and flue
                 arrangement going — open masonry fireplaces, modern inserts,
                 freestanding wood heaters and everything fitted in between.
                 {area.note ? ` ${area.note}` : ""}

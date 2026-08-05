@@ -5,7 +5,7 @@ import CtaBanner from "@/components/sections/CtaBanner";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
-import { areasAlphabetical, serviceAreas } from "@/lib/data/service-areas";
+import { hubsWithChildren, serviceAreas } from "@/lib/data/service-areas";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function ServiceAreasPage() {
-  const areas = areasAlphabetical();
+  const groups = hubsWithChildren();
 
   return (
     <>
@@ -58,27 +58,43 @@ export default function ServiceAreasPage() {
       </section>
 
       <section className="bg-white py-5 pb-20">
-        <Container className="max-w-4xl">
+        <Container className="max-w-5xl">
           <Reveal>
-            <SectionHeading eyebrow="A–Z" title="Areas We Service" />
+            <SectionHeading eyebrow="By Region" title="Areas We Service" />
           </Reveal>
-          <Reveal delay={0.1}>
-            <ul className="mt-8 columns-1 gap-8 sm:columns-2 lg:columns-3">
-              {areas.map((area) => (
-                <li key={area.slug} className="mb-2 break-inside-avoid">
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {groups.map(({ hub, children }, index) => (
+              <Reveal key={hub.slug} delay={index * 0.05}>
+                <div className="h-full rounded-2xl border border-line bg-cream p-6 transition-colors hover:border-ember">
                   <Link
-                    href={`/service-areas/${area.slug}`}
-                    className="group flex items-baseline gap-2 text-ember hover:underline"
+                    href={`/service-areas/${hub.slug}`}
+                    className="text-lg font-semibold text-charcoal hover:text-ember"
                   >
-                    <span aria-hidden className="text-ember/50">
-                      &bull;
-                    </span>
-                    {area.name}
+                    {hub.name}
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+
+                  {children.length > 0 && (
+                    <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
+                      {children.map((child) => (
+                        <li key={child.slug}>
+                          <Link
+                            href={`/service-areas/${child.slug}`}
+                            className="group flex items-center gap-2 text-sm text-mist transition-colors hover:text-ember"
+                          >
+                            <span aria-hidden className="text-ember/50 group-hover:text-ember">
+                              &bull;
+                            </span>
+                            {child.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </Container>
       </section>
 

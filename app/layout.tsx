@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MotionProvider from "@/components/ui/MotionProvider";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import { serviceAreas } from "@/lib/data/service-areas";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -58,15 +59,19 @@ const businessSchema = {
   email: siteConfig.email,
   image: `${siteConfig.url}/images/hero.jpg`,
   priceRange: "$$",
+  sameAs: [siteConfig.facebookUrl],
   address: {
     "@type": "PostalAddress",
     addressLocality: "Brisbane",
     addressRegion: "QLD",
     addressCountry: "AU",
   },
-  areaServed: ["Brisbane", "Sunshine Coast", "Gold Coast"].map((name) => ({
+  // Every suburb with its own /service-areas/ page — tells Google the full
+  // reach of the business, not just the three broad regions. Stays in sync
+  // automatically as suburbs are added in service-areas.ts.
+  areaServed: serviceAreas.map((area) => ({
     "@type": "City",
-    name,
+    name: area.name,
   })),
   openingHoursSpecification: [
     {
