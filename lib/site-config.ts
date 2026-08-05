@@ -14,6 +14,7 @@ export const siteConfig = {
   phone: "0421 833 506",
   phoneHref: "tel:+61421833506",
   email: "Brisbanefireplaceservices@hotmail.com",
+  facebookUrl: "https://www.facebook.com/people/Brisbane-Fireplace-Services/61593009385299/",
   suburb: "Brisbane",
   hours: "Mon – Fri: 7am – 5pm",
   yearsExperience: 20,

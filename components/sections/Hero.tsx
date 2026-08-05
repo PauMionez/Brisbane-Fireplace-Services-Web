@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Flame } from "lucide-react";
+import { Flame, Globe, Mail, Phone } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import EmberParticles from "@/components/ui/EmberParticles";
@@ -68,13 +68,15 @@ export default function Hero() {
         className="relative"
       >
         <Container className="py-24 sm:py-32">
-          <motion.p
+          {/* <motion.p
             variants={item}
             className="inline-flex items-center gap-2 text-sm font-semibold tracking-[0.3em] text-ember uppercase"
           >
             <Flame size={16} className="fill-ember" />
             Need a service? Call {siteConfig.phone}
-          </motion.p>
+          </motion.p> */}
+
+
           <motion.h1
             variants={item}
             className="mt-4 max-w-2xl text-4xl font-bold tracking-tight sm:text-6xl"
@@ -85,7 +87,47 @@ export default function Hero() {
             {siteConfig.tagline} — proudly serving homes and businesses across{" "}
             {siteConfig.suburb.split(",")[0]} and the surrounding suburbs.
           </motion.p>
-          <motion.div variants={item} className="mt-10 flex flex-wrap gap-4">
+          
+         <motion.div
+            variants={item}
+            className="mt-8 flex items-center gap-2"
+          >
+            <Flame size={15} className="fill-ember text-ember" />
+            <span className="text-sm font-semibold uppercase tracking-[0.35em] text-ember">
+              Need a Service?
+            </span>
+          </motion.div>
+          <motion.div
+            variants={item}
+            className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-white/80"
+          >
+            <a
+              href={siteConfig.phoneHref}
+              className="flex items-center gap-2 transition-colors hover:text-ember"
+            >
+              <Phone size={16} className="text-ember" />
+              Call: {siteConfig.phone}
+            </a>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="flex items-center gap-2 transition-colors hover:text-ember"
+            >
+              <Mail size={16} className="text-ember" />
+              Email: {siteConfig.email}
+            </a>
+            
+            <a
+              href={siteConfig.facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 transition-colors hover:text-ember"
+            >
+              <Globe size={16} className="text-ember" />
+              Find us on FB: {siteConfig.name}
+            </a>
+          </motion.div>
+
+          <motion.div variants={item} className="mt-8 flex flex-wrap gap-4">
             <Button href="/contact">Get a Quote</Button>
             <Button href="/services/chimney-cleaning" variant="outline">
               Our Services
